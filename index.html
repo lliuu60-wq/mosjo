@@ -2,7 +2,7 @@
 <html lang="zh-CN" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>刘陈 | 3D空间与电商视觉设计师 - Portfolio</title>
 
     <!-- Tailwind CSS CDN -->
@@ -134,7 +134,7 @@
 
         /* Glassmorphism Panels */
         .hud-glass {
-            background: rgba(20, 23, 31, 0.65);
+            background: rgba(20, 23, 31, 0.75);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -144,42 +144,46 @@
         .perspective-1000 {
             perspective: 1000px;
         }
+
+        /* Mobile Touch Scroll optimization */
+        .touch-pan-y {
+            touch-action: pan-y;
+        }
     </style>
 </head>
 <body class="bg-slateVoid text-slate-100 font-body selection:bg-acidCyan selection:text-black overflow-x-hidden relative">
 
-    <!-- Custom Interactive Architectural Cursor -->
+    <!-- Custom Interactive Architectural Cursor (Hidden on Touch Devices) -->
     <div id="cursor-dot" class="custom-cursor w-3 h-3 bg-acidCyan rounded-full -translate-x-1/2 -translate-y-1/2 shadow-cyan-glow hidden md:block"></div>
     <div id="cursor-ring" class="custom-cursor w-8 h-8 border border-acidCyan/50 rounded-full -translate-x-1/2 -translate-y-1/2 transition-all duration-300 hidden md:block"></div>
 
-    <!-- WebGL Background Canvas for 3D Liquid Mercury Sculpture (Opacity Boosted) -->
-    <canvas id="webgl-liquid-canvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0 opacity-100"></canvas>
+    <!-- WebGL Background Canvas for 3D Liquid Mercury Sphere (Performance optimized for mobile) -->
+    <canvas id="webgl-liquid-canvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0 opacity-80 md:opacity-100"></canvas>
 
-    <!-- Enhanced Dynamic Architectural Ambient Background -->
+    <!-- Dynamic Architectural Ambient Background -->
     <div class="fixed inset-0 bg-grid-animated pointer-events-none z-0"></div>
     <div class="fixed inset-0 bg-gradient-to-t from-slateVoid via-transparent to-slateVoid/80 pointer-events-none z-0"></div>
     
-    <!-- Animated Light Orbs & Dynamic Cyber Scanner Line -->
-    <div class="fixed top-1/4 -left-32 w-96 h-96 bg-acidCyan/15 rounded-full blur-[120px] pointer-events-none z-0 ambient-orb-1"></div>
-    <div class="fixed bottom-1/4 -right-32 w-[30rem] h-[30rem] bg-neonLime/10 rounded-full blur-[140px] pointer-events-none z-0 ambient-orb-2"></div>
+    <!-- Animated Light Orbs & Cyber Scanner Line -->
+    <div class="fixed top-1/4 -left-32 w-72 md:w-96 h-72 md:h-96 bg-acidCyan/15 rounded-full blur-[100px] md:blur-[120px] pointer-events-none z-0 ambient-orb-1"></div>
+    <div class="fixed bottom-1/4 -right-32 w-80 md:w-[30rem] h-80 md:h-[30rem] bg-neonLime/10 rounded-full blur-[100px] md:blur-[140px] pointer-events-none z-0 ambient-orb-2"></div>
     <div class="fixed top-0 left-0 w-full h-24 bg-gradient-to-b from-acidCyan/10 to-transparent pointer-events-none z-0 scan-line"></div>
 
     <!-- Fixed HUD Glass Header -->
-    <header class="fixed top-0 left-0 w-full z-50 px-4 md:px-8 py-4">
-        <div class="max-w-7xl mx-auto hud-glass rounded-2xl px-6 py-3.5 flex items-center justify-between border-b border-white/10">
+    <header class="fixed top-0 left-0 w-full z-50 px-3 md:px-8 py-3 md:py-4">
+        <div class="max-w-7xl mx-auto hud-glass rounded-2xl px-4 md:px-6 py-3 flex items-center justify-between border-b border-white/10">
             <!-- Brand Logo / Name -->
-            <a href="#hero" class="flex items-center gap-3 group">
+            <a href="#hero" class="flex items-center gap-2.5 md:gap-3 group">
                 <div class="w-8 h-8 rounded-lg bg-concreteLight border border-acidCyan/40 flex items-center justify-center font-mono font-bold text-acidCyan group-hover:bg-acidCyan group-hover:text-black transition-all duration-300">
                     LC
                 </div>
                 <div>
-                    <!-- USER_EDIT_NOTE: 替换为您的名字/英文标识 -->
-                    <span class="font-display font-bold tracking-wider text-base block leading-none">LIU CHEN</span>
-                    <span class="font-mono text-[10px] text-acidCyan uppercase tracking-widest block mt-0.5">Spatial & E-Com</span>
+                    <span class="font-display font-bold tracking-wider text-sm md:text-base block leading-none">LIU CHEN</span>
+                    <span class="font-mono text-[9px] md:text-[10px] text-acidCyan uppercase tracking-widest block mt-0.5">Spatial & E-Com</span>
                 </div>
             </a>
 
-            <!-- Navigation Links -->
+            <!-- Desktop Navigation Links -->
             <nav class="hidden md:flex items-center gap-8 font-mono text-xs tracking-wider">
                 <a href="#matrix" class="text-textMuted hover:text-acidCyan transition-colors flex items-center gap-1.5">
                     <span class="text-acidCyan/50">// 01</span> 核心架构
@@ -195,95 +199,127 @@
                 </a>
             </nav>
 
-            <!-- Status Indicator & Contact Button -->
-            <div class="flex items-center gap-4">
+            <!-- Status Indicator & Mobile Hamburger Toggle -->
+            <div class="flex items-center gap-2 md:gap-4">
                 <div class="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-concreteLight border border-white/5 font-mono text-[11px] text-textMuted">
                     <span class="w-2 h-2 rounded-full bg-neonLime animate-pulse"></span>
                     <span>重庆 / 可快速到岗</span>
                 </div>
-                <a href="#contact" class="px-4 py-2 rounded-xl bg-acidCyan text-black font-mono font-bold text-xs hover:bg-neonLime hover:shadow-lime-glow transition-all duration-300 flex items-center gap-1.5">
+
+                <a href="#contact" class="hidden sm:flex px-4 py-2 rounded-xl bg-acidCyan text-black font-mono font-bold text-xs hover:bg-neonLime hover:shadow-lime-glow transition-all duration-300 items-center gap-1.5">
                     <i data-lucide="send" class="w-3.5 h-3.5"></i>
                     <span>联系我</span>
                 </a>
+
+                <!-- Mobile Menu Toggle Button -->
+                <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden w-9 h-9 rounded-xl bg-concreteLight border border-white/10 text-acidCyan flex items-center justify-center active:scale-95 transition-transform" aria-label="Toggle navigation menu">
+                    <i data-lucide="menu" id="menu-icon-open" class="w-5 h-5"></i>
+                    <i data-lucide="x" id="menu-icon-close" class="w-5 h-5 hidden"></i>
+                </button>
             </div>
+        </div>
+
+        <!-- Mobile Drawer Navigation Overlay -->
+        <div id="mobile-menu" class="hidden md:hidden fixed inset-x-3 top-20 z-40 hud-glass rounded-2xl p-5 border border-acidCyan/30 space-y-3 font-mono text-xs shadow-2xl transition-all duration-300">
+            <a href="#matrix" onclick="toggleMobileMenu()" class="flex items-center justify-between p-3 rounded-xl bg-white/5 text-white hover:text-acidCyan">
+                <span>// 01 核心架构</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-acidCyan"></i>
+            </a>
+            <a href="#metrics" onclick="toggleMobileMenu()" class="flex items-center justify-between p-3 rounded-xl bg-white/5 text-white hover:text-acidCyan">
+                <span>// 02 数据实效</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-acidCyan"></i>
+            </a>
+            <a href="#works" onclick="toggleMobileMenu()" class="flex items-center justify-between p-3 rounded-xl bg-white/5 text-white hover:text-acidCyan">
+                <span>// 03 代表作品</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-acidCyan"></i>
+            </a>
+            <a href="#experience" onclick="toggleMobileMenu()" class="flex items-center justify-between p-3 rounded-xl bg-white/5 text-white hover:text-acidCyan">
+                <span>// 04 履历进化</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-acidCyan"></i>
+            </a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="flex items-center justify-between p-3 rounded-xl bg-acidCyan text-black font-bold">
+                <span>// 05 立即联系</span>
+                <i data-lucide="send" class="w-4 h-4"></i>
+            </a>
         </div>
     </header>
 
     <main class="relative z-10">
 
         <!-- Hero Section -->
-        <section id="hero" class="min-h-screen relative pt-32 pb-20 px-4 md:px-8 flex items-center justify-center">
+        <section id="hero" class="min-h-[100dvh] relative pt-28 md:pt-32 pb-16 md:pb-20 px-4 md:px-8 flex items-center justify-center">
             <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 
                 <!-- Hero Left: Deconstructed Typography & Role Intro -->
-                <div class="lg:col-span-7 space-y-6">
+                <div class="lg:col-span-7 space-y-5 md:space-y-6 text-left">
                     <!-- Tech Tag Badge -->
-                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-concrete border border-acidCyan/30 text-acidCyan font-mono text-xs tracking-wider">
-                        <i data-lucide="box" class="w-4 h-4 animate-spin-slow"></i>
-                        <span>6年建筑工程空间感 + 1年电商三维渲染爆款打造</span>
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-concrete border border-acidCyan/30 text-acidCyan font-mono text-xs tracking-wider max-w-full">
+                        <i data-lucide="box" class="w-4 h-4 shrink-0"></i>
+                        <span class="truncate">6年建筑施工图 + 1年电商3D渲染爆款</span>
                     </div>
 
                     <!-- Main Deconstructed Title -->
                     <div class="space-y-1">
-                        <h1 class="font-display text-5xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight text-chrome uppercase leading-none">
+                        <h1 class="font-display text-4xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight text-chrome uppercase leading-none">
                             SPATIAL <span class="text-acidCyan">&amp;</span><br>
                             E-COMMERCE
                         </h1>
-                        <!-- USER_EDIT_NOTE: 主标题与角色设定 -->
-                        <div class="font-display text-4xl sm:text-5xl font-extrabold text-white/90 tracking-tight flex items-center gap-3">
+                        <div class="font-display text-2xl sm:text-4xl font-extrabold text-white/90 tracking-tight flex flex-wrap items-center gap-2 md:gap-3 pt-1">
                             <span>三维视觉设计师</span>
-                            <span class="text-xs font-mono px-2 py-1 rounded bg-neonLime/10 text-neonLime border border-neonLime/30 font-normal">电商美工 / C4D渲染</span>
+                            <span class="text-xs font-mono px-2 py-0.5 rounded bg-neonLime/10 text-neonLime border border-neonLime/30 font-normal">电商美工 / C4D渲染</span>
                         </div>
                     </div>
 
                     <!-- Narrative Paragraph -->
-                    <!-- USER_EDIT_NOTE: 替换为您的自我介绍段落 -->
-                    <p class="text-textMuted text-base sm:text-lg max-w-2xl font-light leading-relaxed">
+                    <p class="text-textMuted text-sm sm:text-lg max-w-2xl font-light leading-relaxed">
                         我是 <strong class="text-white font-medium">刘陈</strong>。具备 6 年建筑施工图与空间光影把控经验，并成功跨界应用于天猫婴幼儿玩具类目。擅长用 <span class="text-acidCyan font-mono">3D场景化渲染</span> 破局产品同质化，以数据为导向将 <strong class="text-neonLime">主图点击率提升 15%</strong>、<strong class="text-neonLime">详情页转化率提升 10%</strong>。
                     </p>
 
                     <!-- Interactive Action Buttons -->
-                    <div class="pt-4 flex flex-wrap items-center gap-4 font-mono text-sm">
-                        <a href="#works" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-acidCyan to-cyan-400 text-black font-bold flex items-center gap-2 hover:shadow-cyan-glow hover:scale-[1.02] transition-all duration-300">
+                    <div class="pt-2 flex flex-wrap items-center gap-3 font-mono text-xs sm:text-sm">
+                        <a href="#works" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-acidCyan to-cyan-400 text-black font-bold flex items-center justify-center gap-2 hover:shadow-cyan-glow active:scale-98 transition-all duration-300">
                             <i data-lucide="layers" class="w-4 h-4"></i>
                             <span>浏览作品集</span>
+                        </a>
+                        <a href="#contact" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-concreteLight border border-white/10 text-white font-bold flex items-center justify-center gap-2 hover:border-acidCyan active:scale-98 transition-all duration-300 sm:hidden">
+                            <i data-lucide="phone" class="w-4 h-4 text-acidCyan"></i>
+                            <span>联系刘陈</span>
                         </a>
                     </div>
 
                     <!-- Live Quick Metrics Counter Badges -->
-                    <div class="pt-8 grid grid-cols-3 gap-4 border-t border-white/10 max-w-xl">
+                    <div class="pt-6 grid grid-cols-3 gap-2 sm:gap-4 border-t border-white/10 max-w-xl text-center sm:text-left">
                         <div>
-                            <div class="font-mono text-2xl md:text-3xl font-bold text-acidCyan text-glow-cyan">+15%</div>
-                            <div class="text-xs text-textMuted mt-1">主图 CTR 点击率</div>
+                            <div class="font-mono text-xl sm:text-3xl font-bold text-acidCyan text-glow-cyan">+15%</div>
+                            <div class="text-[11px] sm:text-xs text-textMuted mt-1">主图 CTR 点击</div>
                         </div>
                         <div>
-                            <div class="font-mono text-2xl md:text-3xl font-bold text-neonLime text-glow-lime">+10%</div>
-                            <div class="text-xs text-textMuted mt-1">详情页 CVR 转化率</div>
+                            <div class="font-mono text-xl sm:text-3xl font-bold text-neonLime text-glow-lime">+10%</div>
+                            <div class="text-[11px] sm:text-xs text-textMuted mt-1">详情 CVR 转化</div>
                         </div>
                         <div>
-                            <div class="font-mono text-2xl md:text-3xl font-bold text-white">50万+</div>
-                            <div class="text-xs text-textMuted mt-1">大促曝光测试样本</div>
+                            <div class="font-mono text-xl sm:text-3xl font-bold text-white">50万+</div>
+                            <div class="text-[11px] sm:text-xs text-textMuted mt-1">大促测试样本</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Hero Right: Interactive 3D HUD & Deconstructed Architectural Box -->
-                <div class="lg:col-span-5 relative">
-                    <!-- Cyber HUD Floating Data Card -->
-                    <div class="hud-glass rounded-3xl p-6 sm:p-8 border border-white/15 relative overflow-hidden shadow-2xl group hover:border-acidCyan/40 transition-all duration-500">
+                <div class="lg:col-span-5 relative mt-4 lg:mt-0">
+                    <div class="hud-glass rounded-3xl p-5 sm:p-8 border border-white/15 relative overflow-hidden shadow-2xl">
                         <div class="absolute -top-12 -right-12 w-40 h-40 bg-acidCyan/10 rounded-full blur-3xl pointer-events-none"></div>
                         
                         <!-- Card Header -->
-                        <div class="flex items-center justify-between pb-6 border-b border-white/10">
-                            <div class="flex items-center gap-3">
-                                <div class="w-3 h-3 rounded-full bg-acidCyan animate-ping"></div>
+                        <div class="flex items-center justify-between pb-4 sm:pb-6 border-b border-white/10">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-2.5 h-2.5 rounded-full bg-acidCyan animate-ping"></div>
                                 <span class="font-mono text-xs text-acidCyan uppercase tracking-widest">核心三维算力与设计标签</span>
                             </div>
-                            <span class="font-mono text-[10px] text-textMuted">HUD_SYS_v2.6</span>
+                            <span class="font-mono text-[10px] text-textMuted hidden sm:inline">HUD_SYS_v2.6</span>
                         </div>
 
-                        <!-- Skill Badge & Capabilities Matrix (Tag Format) -->
-                        <div class="py-6 space-y-5">
+                        <!-- Skill Badge & Capabilities Matrix -->
+                        <div class="py-4 sm:py-6 space-y-4 sm:space-y-5">
                             
                             <!-- Category 1: 建模与空间透视 -->
                             <div class="space-y-2">
@@ -291,10 +327,10 @@
                                     <i data-lucide="compass" class="w-4 h-4 text-acidCyan"></i>
                                     <span>空间透视 &amp; 3D建模力</span>
                                 </div>
-                                <div class="flex flex-wrap gap-2 pt-1 font-mono text-xs">
-                                    <span class="px-3 py-1.5 rounded-lg bg-acidCyan/10 border border-acidCyan/30 text-acidCyan font-medium">AutoCAD 施工图</span>
-                                    <span class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white hover:border-acidCyan/40 transition-colors">C4D 场景搭建</span>
-                                    <span class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-textMuted">透视网格矫正</span>
+                                <div class="flex flex-wrap gap-1.5 sm:gap-2 pt-1 font-mono text-[11px] sm:text-xs">
+                                    <span class="px-2.5 py-1 rounded-lg bg-acidCyan/10 border border-acidCyan/30 text-acidCyan font-medium">AutoCAD 施工图</span>
+                                    <span class="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-white">C4D 场景搭建</span>
+                                    <span class="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-textMuted">透视网格矫正</span>
                                 </div>
                             </div>
 
@@ -304,9 +340,9 @@
                                     <i data-lucide="sun" class="w-4 h-4 text-neonLime"></i>
                                     <span>光影精修 &amp; 电商渲染</span>
                                 </div>
-                                <div class="flex flex-wrap gap-2 pt-1 font-mono text-xs">
-                                    <span class="px-3 py-1.5 rounded-lg bg-neonLime/10 border border-neonLime/30 text-neonLime font-medium">Octane / Photoshop 光影重构</span>
-                                    <span class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-textMuted">真实建材物理质感</span>
+                                <div class="flex flex-wrap gap-1.5 sm:gap-2 pt-1 font-mono text-[11px] sm:text-xs">
+                                    <span class="px-2.5 py-1 rounded-lg bg-neonLime/10 border border-neonLime/30 text-neonLime font-medium">Octane / PS 光影重构</span>
+                                    <span class="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-textMuted">真实建材物理质感</span>
                                 </div>
                             </div>
 
@@ -316,19 +352,19 @@
                                     <i data-lucide="trending-up" class="w-4 h-4 text-acidCyan"></i>
                                     <span>爆款转化 &amp; 视觉策略</span>
                                 </div>
-                                <div class="flex flex-wrap gap-2 pt-1 font-mono text-xs">
-                                    <span class="px-3 py-1.5 rounded-lg bg-acidCyan/10 border border-acidCyan/30 text-acidCyan font-medium">主图 CTR 优化 (+15%)</span>
-                                    <span class="px-3 py-1.5 rounded-lg bg-neonLime/10 border border-neonLime/30 text-neonLime font-medium">详情页 CVR 提升 (+10%)</span>
-                                    <span class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-textMuted">买家动线规划</span>
+                                <div class="flex flex-wrap gap-1.5 sm:gap-2 pt-1 font-mono text-[11px] sm:text-xs">
+                                    <span class="px-2.5 py-1 rounded-lg bg-acidCyan/10 border border-acidCyan/30 text-acidCyan font-medium">主图 CTR (+15%)</span>
+                                    <span class="px-2.5 py-1 rounded-lg bg-neonLime/10 border border-neonLime/30 text-neonLime font-medium">详情 CVR (+10%)</span>
+                                    <span class="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-textMuted">买家动线规划</span>
                                 </div>
                             </div>
 
                         </div>
 
                         <!-- Bottom Interactive Hint -->
-                        <div class="pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono text-textMuted">
-                            <span>[拖拽/移动鼠标] 触控背景 3D 液态流体</span>
-                            <i data-lucide="mouse-pointer" class="w-4 h-4 text-acidCyan animate-bounce"></i>
+                        <div class="pt-3 sm:pt-4 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-textMuted">
+                            <span>[触摸/移动] 背景 3D 液态流体</span>
+                            <i data-lucide="mouse-pointer" class="w-3.5 h-3.5 text-acidCyan animate-bounce"></i>
                         </div>
                     </div>
                 </div>
@@ -337,64 +373,63 @@
         </section>
 
         <!-- Section 01: Architectural Engineering x E-Commerce Matrix -->
-        <section id="matrix" class="py-24 px-4 md:px-8 relative border-t border-white/5">
-            <div class="max-w-7xl mx-auto space-y-16">
+        <section id="matrix" class="py-16 md:py-24 px-4 md:px-8 relative border-t border-white/5">
+            <div class="max-w-7xl mx-auto space-y-12 md:space-y-16">
                 
-                <!-- Section Header -->
-                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
                     <div>
-                        <div class="font-mono text-xs text-acidCyan uppercase tracking-widest mb-2">// SECTION 01 — CORE ADVANTAGE</div>
-                        <h2 class="font-display text-3xl sm:text-4xl font-bold tracking-tight text-white">跨界基因：建筑空间学 × 电商三维渲染</h2>
+                        <div class="font-mono text-xs text-acidCyan uppercase tracking-widest mb-1.5">// SECTION 01 — CORE ADVANTAGE</div>
+                        <h2 class="font-display text-2xl sm:text-4xl font-bold tracking-tight text-white">跨界基因：建筑空间学 × 电商三维渲染</h2>
                     </div>
-                    <p class="text-textMuted text-sm max-w-md font-light">
+                    <p class="text-textMuted text-xs sm:text-sm max-w-md font-light">
                         将 6 年建筑施工图中积累的严谨空间结构、透视比例与光影质感，注入电商商品视觉。
                     </p>
                 </div>
 
                 <!-- 2-Column Matrix Grid -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
                     
                     <!-- Left: Architectural Engineering Foundation -->
-                    <div class="hud-glass rounded-3xl p-8 border border-white/10 hover:border-acidCyan/40 transition-all duration-300 relative group">
-                        <div class="w-12 h-12 rounded-2xl bg-concreteLight border border-acidCyan/30 flex items-center justify-center text-acidCyan mb-6 group-hover:scale-110 transition-transform">
-                            <i data-lucide="building-2" class="w-6 h-6"></i>
+                    <div class="hud-glass rounded-3xl p-6 md:p-8 border border-white/10 relative group">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-concreteLight border border-acidCyan/30 flex items-center justify-center text-acidCyan mb-4 md:mb-6">
+                            <i data-lucide="building-2" class="w-5 h-5 md:w-6 md:h-6"></i>
                         </div>
                         <div class="font-mono text-xs text-acidCyan mb-1">2018.10 - 2024.04 (6 YEARS)</div>
-                        <h3 class="font-display text-2xl font-bold text-white mb-4">建筑技术 &amp; 施工图深化背景</h3>
-                        <ul class="space-y-3 text-textMuted text-sm">
-                            <li class="flex items-start gap-3">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-acidCyan shrink-0 mt-1"></i>
+                        <h3 class="font-display text-xl sm:text-2xl font-bold text-white mb-3 md:mb-4">建筑技术 &amp; 施工图深化背景</h3>
+                        <ul class="space-y-3 text-textMuted text-xs sm:text-sm">
+                            <li class="flex items-start gap-2.5">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-acidCyan shrink-0 mt-0.5"></i>
                                 <span><strong class="text-white">空间尺度与透视掌控：</strong> 精确把控 3D 场景比例，避免常规美工组装素材时的透视错位感。</span>
                             </li>
-                            <li class="flex items-start gap-3">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-acidCyan shrink-0 mt-1"></i>
+                            <li class="flex items-start gap-2.5">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-acidCyan shrink-0 mt-0.5"></i>
                                 <span><strong class="text-white">真实物理光影与材质：</strong> 理解真实建材（木纹、亚克力、塑料、织物）的光线折射与阴影层次。</span>
                             </li>
-                            <li class="flex items-start gap-3">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-acidCyan shrink-0 mt-1"></i>
+                            <li class="flex items-start gap-2.5">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-acidCyan shrink-0 mt-0.5"></i>
                                 <span><strong class="text-white">严谨施工节点思维：</strong> AutoCAD 多项目图纸经验，转化为极度规范的电商视觉 UI 体系。</span>
                             </li>
                         </ul>
                     </div>
 
                     <!-- Right: E-Commerce 3D Visual Optimization -->
-                    <div class="hud-glass rounded-3xl p-8 border border-white/10 hover:border-neonLime/40 transition-all duration-300 relative group">
-                        <div class="w-12 h-12 rounded-2xl bg-concreteLight border border-neonLime/30 flex items-center justify-center text-neonLime mb-6 group-hover:scale-110 transition-transform">
-                            <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+                    <div class="hud-glass rounded-3xl p-6 md:p-8 border border-white/10 relative group">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-concreteLight border border-neonLime/30 flex items-center justify-center text-neonLime mb-4 md:mb-6">
+                            <i data-lucide="shopping-bag" class="w-5 h-5 md:w-6 md:h-6"></i>
                         </div>
                         <div class="font-mono text-xs text-neonLime mb-1">2024.10 - 2026.02 (1+ YEARS)</div>
-                        <h3 class="font-display text-2xl font-bold text-white mb-4">天猫婴幼儿玩具类目电商美工</h3>
-                        <ul class="space-y-3 text-textMuted text-sm">
-                            <li class="flex items-start gap-3">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-neonLime shrink-0 mt-1"></i>
-                                <span><strong class="text-white">场景化主图爆破：</strong> 用 C4D 打造童趣拟真场景（如软萌摇摇羊、存钱火箭），主图 CTR 提高 15%。</span>
+                        <h3 class="font-display text-xl sm:text-2xl font-bold text-white mb-3 md:mb-4">天猫婴幼儿玩具类目电商美工</h3>
+                        <ul class="space-y-3 text-textMuted text-xs sm:text-sm">
+                            <li class="flex items-start gap-2.5">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-neonLime shrink-0 mt-0.5"></i>
+                                <span><strong class="text-white">场景化主图爆破：</strong> 用 C4D 打造童趣拟真场景，主图 CTR 提高 15%。</span>
                             </li>
-                            <li class="flex items-start gap-3">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-neonLime shrink-0 mt-1"></i>
+                            <li class="flex items-start gap-2.5">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-neonLime shrink-0 mt-0.5"></i>
                                 <span><strong class="text-white">购买动线逻辑重构：</strong> 优化详情页卖点可视化与信息层级，转化率 CVR 稳定提升 10%。</span>
                             </li>
-                            <li class="flex items-start gap-3">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-neonLime shrink-0 mt-1"></i>
+                            <li class="flex items-start gap-2.5">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-neonLime shrink-0 mt-0.5"></i>
                                 <span><strong class="text-white">高敏捷交付与规范沉淀：</strong> 独立完成首页/大促活动页/直通车图，沉淀类目可复用视觉规范。</span>
                             </li>
                         </ul>
@@ -405,69 +440,69 @@
         </section>
 
         <!-- Section 02: Data-Driven Performance HUD -->
-        <section id="metrics" class="py-24 px-4 md:px-8 bg-concrete/50 relative">
-            <div class="max-w-7xl mx-auto space-y-12">
+        <section id="metrics" class="py-16 md:py-24 px-4 md:px-8 bg-concrete/50 relative">
+            <div class="max-w-7xl mx-auto space-y-10 md:space-y-12">
                 
-                <div class="text-center space-y-4 max-w-2xl mx-auto">
+                <div class="text-center space-y-3 max-w-2xl mx-auto">
                     <div class="font-mono text-xs text-acidCyan uppercase tracking-widest">// SECTION 02 — PROVEN RESULTS</div>
-                    <h2 class="font-display text-3xl sm:text-4xl font-bold text-white">用数据说话：主图点击率与详情页转化双突破</h2>
-                    <p class="text-textMuted text-sm">配合运营 AB 测试与多轮迭代，用差异化 3D 渲染替代低质平铺图</p>
+                    <h2 class="font-display text-2xl sm:text-4xl font-bold text-white">用数据说话：主图点击率与详情页转化双突破</h2>
+                    <p class="text-textMuted text-xs sm:text-sm">配合运营 AB 测试与多轮迭代，用差异化 3D 渲染替代低质平铺图</p>
                 </div>
 
                 <!-- 3 Data HUD Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
                     
                     <!-- Metric Card 1: CTR -->
-                    <div class="hud-glass rounded-2xl p-6 border border-acidCyan/30 relative overflow-hidden group hover:shadow-cyan-glow transition-all">
-                        <div class="flex justify-between items-start mb-4">
+                    <div class="hud-glass rounded-2xl p-5 md:p-6 border border-acidCyan/30 relative">
+                        <div class="flex justify-between items-start mb-3">
                             <span class="font-mono text-xs text-acidCyan">TEST_METRIC_01</span>
                             <i data-lucide="mouse-pointer-click" class="w-5 h-5 text-acidCyan"></i>
                         </div>
-                        <div class="text-4xl font-mono font-bold text-white mb-2">
+                        <div class="text-3xl sm:text-4xl font-mono font-bold text-white mb-2">
                             4.2% <span class="text-acidCyan font-light">→</span> <span class="text-acidCyan text-glow-cyan">4.8%</span>
                         </div>
-                        <div class="text-xs font-mono text-neonLime mb-4 flex items-center gap-1">
+                        <div class="text-xs font-mono text-neonLime mb-3 flex items-center gap-1">
                             <i data-lucide="trending-up" class="w-3.5 h-3.5"></i> 主图点击率相对提升 +15%
                         </div>
                         <p class="text-textMuted text-xs leading-relaxed">
-                            <strong>测试周期：</strong>2 周 | <strong>曝光样本：</strong>约 50 万次<br>
-                            主导天猫玩具主图卖点重构与三维场景化搭建，解决商品同质化严重问题。
+                            <strong>测试周期：</strong>2 周 | <strong>样本：</strong>50 万次<br>
+                            主导天猫玩具主图卖点重构与三维场景化搭建，解决商品同质化问题。
                         </p>
                     </div>
 
                     <!-- Metric Card 2: CVR -->
-                    <div class="hud-glass rounded-2xl p-6 border border-neonLime/30 relative overflow-hidden group hover:shadow-lime-glow transition-all">
-                        <div class="flex justify-between items-start mb-4">
+                    <div class="hud-glass rounded-2xl p-5 md:p-6 border border-neonLime/30 relative">
+                        <div class="flex justify-between items-start mb-3">
                             <span class="font-mono text-xs text-neonLime">TEST_METRIC_02</span>
                             <i data-lucide="shopping-cart" class="w-5 h-5 text-neonLime"></i>
                         </div>
-                        <div class="text-4xl font-mono font-bold text-white mb-2">
+                        <div class="text-3xl sm:text-4xl font-mono font-bold text-white mb-2">
                             2.1% <span class="text-neonLime font-light">→</span> <span class="text-neonLime text-glow-lime">2.3%</span>
                         </div>
-                        <div class="text-xs font-mono text-neonLime mb-4 flex items-center gap-1">
+                        <div class="text-xs font-mono text-neonLime mb-3 flex items-center gap-1">
                             <i data-lucide="trending-up" class="w-3.5 h-3.5"></i> 详情页转化率相对提升 +10%
                         </div>
                         <p class="text-textMuted text-xs leading-relaxed">
                             <strong>优化维度：</strong>详情页信息架构重构<br>
-                            搭建婴幼儿玩具类目视觉规范，优化宝妈群体购买动线与卖点透出逻辑。
+                            搭建婴幼儿玩具类目视觉规范，优化宝妈群体购买动线与卖点透出。
                         </p>
                     </div>
 
                     <!-- Metric Card 3: Dwell Time -->
-                    <div class="hud-glass rounded-2xl p-6 border border-white/10 relative overflow-hidden group hover:border-white/30 transition-all">
-                        <div class="flex justify-between items-start mb-4">
+                    <div class="hud-glass rounded-2xl p-5 md:p-6 border border-white/10 relative">
+                        <div class="flex justify-between items-start mb-3">
                             <span class="font-mono text-xs text-textMuted">TEST_METRIC_03</span>
                             <i data-lucide="clock" class="w-5 h-5 text-white"></i>
                         </div>
-                        <div class="text-4xl font-mono font-bold text-white mb-2">
+                        <div class="text-3xl sm:text-4xl font-mono font-bold text-white mb-2">
                             +12%
                         </div>
-                        <div class="text-xs font-mono text-textMuted mb-4 flex items-center gap-1">
-                            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-acidCyan"></i> 详情页平均停留时长增加
+                        <div class="text-xs font-mono text-textMuted mb-3 flex items-center gap-1">
+                            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-acidCyan"></i> 详情页停留时长增加
                         </div>
                         <p class="text-textMuted text-xs leading-relaxed">
-                            <strong>体验升级：</strong>三维精修 + 场景细节展示<br>
-                            通过高精材质对比与极佳光影，提升家长对玩具材质安全与趣味性的信任度。
+                            <strong>体验升级：</strong>三维精修 + 场景细节<br>
+                            通过高精材质对比与极佳光影，提升家长对材质安全与趣味性的信任度。
                         </p>
                     </div>
 
@@ -476,64 +511,55 @@
         </section>
 
         <!-- Section 03: Selected Works Gallery -->
-        <section id="works" class="py-24 px-4 md:px-8 relative">
-            <div class="max-w-7xl mx-auto space-y-16">
+        <section id="works" class="py-16 md:py-24 px-4 md:px-8 relative">
+            <div class="max-w-7xl mx-auto space-y-12 md:space-y-16">
                 
-                <!-- Section Title -->
-                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
                     <div>
-                        <div class="font-mono text-xs text-acidCyan uppercase tracking-widest mb-2">// SECTION 03 — PROJECT SHOWCASE</div>
-                        <h2 class="font-display text-3xl sm:text-4xl font-bold text-white">电商视觉详情图作品</h2>
+                        <div class="font-mono text-xs text-acidCyan uppercase tracking-widest mb-1.5">// SECTION 03 — PROJECT SHOWCASE</div>
+                        <h2 class="font-display text-2xl sm:text-4xl font-bold text-white">电商视觉详情图作品</h2>
                     </div>
                 </div>
 
-                <!-- Portfolio Masonry / Waterfall Gallery (2-Column Grid) -->
-                <div class="columns-1 md:columns-2 gap-6 space-y-6">
+                <!-- Portfolio Masonry / Waterfall Gallery (Adapted for Mobile) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                     <!-- PROJECT 1: 存钱火箭 -->
-                    <div class="break-inside-avoid perspective-1000">
-                        <div class="tilt-card relative hud-glass rounded-3xl overflow-hidden border border-white/10 hover:border-acidCyan transition-all duration-500 group cursor-pointer"
+                    <div class="perspective-1000">
+                        <div class="tilt-card relative hud-glass rounded-3xl overflow-hidden border border-white/10 hover:border-acidCyan transition-all duration-300 cursor-pointer active:scale-98"
                              onclick="openModal('存钱火箭三维场景详情页设计', 'https://tu-1316323418.cos.ap-chengdu.myqcloud.com/tu-1316323418/xiangqing%E5%AD%98%E9%92%B1%E7%81%AB%E7%AE%AD.png', '运用 C4D 构建太空探索三维场景，针对智能音效与存钱功能卖点进行精细化渲染，强力提升商品品质认知与转化为爆款。')">
                             
-                            <!-- Image Container -->
-                            <div class="relative w-full h-[460px] overflow-hidden bg-concreteLight">
+                            <div class="relative w-full h-80 sm:h-[420px] overflow-hidden bg-concreteLight">
                                 <img src="https://tu-1316323418.cos.ap-chengdu.myqcloud.com/tu-1316323418/xiangqing%E5%AD%98%E9%92%B1%E7%81%AB%E7%AE%AD.png" 
                                      alt="存钱火箭详情页" 
-                                     class="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700 opacity-85 group-hover:opacity-100">
+                                     class="w-full h-full object-cover object-top opacity-90 transition-transform duration-500">
                                 
-                                <div class="absolute top-4 left-4 z-10">
-                                    <span class="px-3 py-1 rounded-full bg-slateVoid/90 backdrop-blur-md border border-acidCyan/40 font-mono text-xs text-acidCyan shadow-lg">
+                                <div class="absolute top-3 left-3 z-10">
+                                    <span class="px-2.5 py-1 rounded-full bg-slateVoid/90 border border-acidCyan/40 font-mono text-[11px] text-acidCyan">
                                         电商存钱小火箭
                                     </span>
                                 </div>
 
-                                <div class="absolute top-4 right-4 z-10">
-                                    <span class="px-2.5 py-1 rounded-lg bg-neonLime/20 backdrop-blur-md border border-neonLime/40 font-mono text-xs text-neonLime font-bold">
+                                <div class="absolute top-3 right-3 z-10">
+                                    <span class="px-2 py-0.5 rounded-lg bg-neonLime/20 border border-neonLime/40 font-mono text-[11px] text-neonLime font-bold">
                                         CVR +10%
                                     </span>
                                 </div>
 
-                                <!-- Full Height Hover Overlay Screen -->
-                                <div class="absolute inset-0 bg-gradient-to-t from-slateVoid via-slateVoid/80 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-400 p-8 flex flex-col justify-end transform translate-y-4 group-hover:translate-y-0">
-                                    <div class="space-y-3">
-                                        <div class="font-mono text-xs text-acidCyan">// PROJECT 01</div>
-                                        <h3 class="font-display text-2xl font-bold text-white leading-tight">
+                                <!-- Always-visible Card Footer on Mobile / Full Overlay on Hover Desktop -->
+                                <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slateVoid via-slateVoid/90 to-transparent p-4 sm:p-6 flex flex-col justify-end">
+                                    <div class="space-y-2">
+                                        <div class="font-mono text-[10px] text-acidCyan">// PROJECT 01</div>
+                                        <h3 class="font-display text-lg sm:text-2xl font-bold text-white leading-tight">
                                             天猫爆款：智能音效存钱火箭
                                         </h3>
-                                        <p class="text-textMuted text-xs leading-relaxed line-clamp-3">
-                                            【主图与详情页重构】从宇宙探索概念切入，运用重质感 3D 光影与材质分解，提升客单价认知与买家转化率。
-                                        </p>
-
-                                        <div class="flex flex-wrap gap-2 pt-2 font-mono text-[11px]">
-                                            <span class="px-2.5 py-1 rounded-md bg-white/10 text-white">C4D/Octane</span>
-                                            <span class="px-2.5 py-1 rounded-md bg-white/10 text-white">太空场景搭建</span>
-                                            <span class="px-2.5 py-1 rounded-md bg-white/10 text-white">详情页长图</span>
+                                        <div class="flex flex-wrap gap-1.5 font-mono text-[10px]">
+                                            <span class="px-2 py-0.5 rounded bg-white/10 text-white">C4D/Octane</span>
+                                            <span class="px-2 py-0.5 rounded bg-white/10 text-white">太空场景搭建</span>
                                         </div>
-
-                                        <div class="pt-2">
-                                            <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-acidCyan text-black font-mono font-bold text-xs">
-                                                <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i> 查看完整长图详情
-                                            </span>
+                                        <div class="pt-1 flex items-center gap-1.5 text-acidCyan font-mono text-xs font-bold">
+                                            <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+                                            <span>点击查看完整长图</span>
                                         </div>
                                     </div>
                                 </div>
@@ -543,48 +569,40 @@
                     </div>
 
                     <!-- PROJECT 2: 软萌摇摇羊 -->
-                    <div class="break-inside-avoid perspective-1000">
-                        <div class="tilt-card relative hud-glass rounded-3xl overflow-hidden border border-white/10 hover:border-neonLime transition-all duration-500 group cursor-pointer"
+                    <div class="perspective-1000">
+                        <div class="tilt-card relative hud-glass rounded-3xl overflow-hidden border border-white/10 hover:border-neonLime transition-all duration-300 cursor-pointer active:scale-98"
                              onclick="openModal('软萌摇摇羊三维质感详情页', 'https://tu-1316323418.cos.ap-chengdu.myqcloud.com/tu-1316323418/xiangqing%E5%B0%8F%E7%BE%8A.png', '精细调校绒毛材质与温馨家居软装光影，打造极具抚慰感与亲和力的婴幼儿摇摇羊爆款视觉，主图点击率提升 15%。')">
                             
-                            <div class="relative w-full h-[360px] overflow-hidden bg-concreteLight">
+                            <div class="relative w-full h-80 sm:h-[420px] overflow-hidden bg-concreteLight">
                                 <img src="https://tu-1316323418.cos.ap-chengdu.myqcloud.com/tu-1316323418/xiangqing%E5%B0%8F%E7%BE%8A.png" 
                                      alt="软萌摇摇羊详情页" 
-                                     class="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700 opacity-85 group-hover:opacity-100">
+                                     class="w-full h-full object-cover object-top opacity-90 transition-transform duration-500">
                                 
-                                <div class="absolute top-4 left-4 z-10">
-                                    <span class="px-3 py-1 rounded-full bg-slateVoid/90 backdrop-blur-md border border-neonLime/40 font-mono text-xs text-neonLime shadow-lg">
+                                <div class="absolute top-3 left-3 z-10">
+                                    <span class="px-2.5 py-1 rounded-full bg-slateVoid/90 border border-neonLime/40 font-mono text-[11px] text-neonLime">
                                         柔光材质精修
                                     </span>
                                 </div>
 
-                                <div class="absolute top-4 right-4 z-10">
-                                    <span class="px-2.5 py-1 rounded-lg bg-acidCyan/20 backdrop-blur-md border border-acidCyan/40 font-mono text-xs text-acidCyan font-bold">
+                                <div class="absolute top-3 right-3 z-10">
+                                    <span class="px-2 py-0.5 rounded-lg bg-acidCyan/20 border border-acidCyan/40 font-mono text-[11px] text-acidCyan font-bold">
                                         CTR +15%
                                     </span>
                                 </div>
 
-                                <!-- Full Height Hover Overlay Screen -->
-                                <div class="absolute inset-0 bg-gradient-to-t from-slateVoid via-slateVoid/80 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-400 p-8 flex flex-col justify-end transform translate-y-4 group-hover:translate-y-0">
-                                    <div class="space-y-3">
-                                        <div class="font-mono text-xs text-neonLime">// PROJECT 02</div>
-                                        <h3 class="font-display text-2xl font-bold text-white leading-tight">
+                                <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slateVoid via-slateVoid/90 to-transparent p-4 sm:p-6 flex flex-col justify-end">
+                                    <div class="space-y-2">
+                                        <div class="font-mono text-[10px] text-neonLime">// PROJECT 02</div>
+                                        <h3 class="font-display text-lg sm:text-2xl font-bold text-white leading-tight">
                                             软萌摇摇羊：柔质玩具视觉
                                         </h3>
-                                        <p class="text-textMuted text-xs leading-relaxed line-clamp-3">
-                                            【主图与详情页规范】深度还原绒毛软萌触感与木质底座细节，配合温馨母婴居家场景渲染，打破低质平铺同质化。
-                                        </p>
-
-                                        <div class="flex flex-wrap gap-2 pt-2 font-mono text-[11px]">
-                                            <span class="px-2.5 py-1 rounded-md bg-white/10 text-white">毛发/软体材质</span>
-                                            <span class="px-2.5 py-1 rounded-md bg-white/10 text-white">温润居家光影</span>
-                                            <span class="px-2.5 py-1 rounded-md bg-white/10 text-white">母婴类目规范</span>
+                                        <div class="flex flex-wrap gap-1.5 font-mono text-[10px]">
+                                            <span class="px-2 py-0.5 rounded bg-white/10 text-white">毛发材质</span>
+                                            <span class="px-2 py-0.5 rounded bg-white/10 text-white">温润光影</span>
                                         </div>
-
-                                        <div class="pt-2">
-                                            <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-neonLime text-black font-mono font-bold text-xs">
-                                                <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i> 查看完整长图详情
-                                            </span>
+                                        <div class="pt-1 flex items-center gap-1.5 text-neonLime font-mono text-xs font-bold">
+                                            <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+                                            <span>点击查看完整长图</span>
                                         </div>
                                     </div>
                                 </div>
@@ -594,48 +612,40 @@
                     </div>
 
                     <!-- PROJECT 3: 室内儿童篮筐 -->
-                    <div class="break-inside-avoid perspective-1000">
-                        <div class="tilt-card relative hud-glass rounded-3xl overflow-hidden border border-white/10 hover:border-acidCyan transition-all duration-500 group cursor-pointer"
+                    <div class="perspective-1000">
+                        <div class="tilt-card relative hud-glass rounded-3xl overflow-hidden border border-white/10 hover:border-acidCyan transition-all duration-300 cursor-pointer active:scale-98"
                              onclick="openModal('儿童篮筐墙面场景与透视设计', 'https://tu-1316323418.cos.ap-chengdu.myqcloud.com/tu-1316323418/xiangqing%E7%AF%AE%E7%AD%90.png', '充分发挥 6 年建筑施工图级的墙面与空间透视经验，精准还原室内无痕挂墙与动态投篮场景，提升停留时长 12%。')">
                             
-                            <div class="relative w-full h-[380px] overflow-hidden bg-concreteLight">
+                            <div class="relative w-full h-80 sm:h-[420px] overflow-hidden bg-concreteLight">
                                 <img src="https://tu-1316323418.cos.ap-chengdu.myqcloud.com/tu-1316323418/xiangqing%E7%AF%AE%E7%AD%90.png" 
                                      alt="儿童室内篮筐" 
-                                     class="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700 opacity-85 group-hover:opacity-100">
+                                     class="w-full h-full object-cover object-top opacity-90 transition-transform duration-500">
                                 
-                                <div class="absolute top-4 left-4 z-10">
-                                    <span class="px-3 py-1 rounded-full bg-slateVoid/90 backdrop-blur-md border border-acidCyan/40 font-mono text-xs text-acidCyan shadow-lg">
-                                        建筑透视 × 空间场景
+                                <div class="absolute top-3 left-3 z-10">
+                                    <span class="px-2.5 py-1 rounded-full bg-slateVoid/90 border border-acidCyan/40 font-mono text-[11px] text-acidCyan">
+                                        建筑透视 × 空间
                                     </span>
                                 </div>
 
-                                <div class="absolute top-4 right-4 z-10">
-                                    <span class="px-2.5 py-1 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 font-mono text-xs text-white font-bold">
-                                        停留时长 +12%
+                                <div class="absolute top-3 right-3 z-10">
+                                    <span class="px-2 py-0.5 rounded-lg bg-white/10 border border-white/20 font-mono text-[11px] text-white font-bold">
+                                        停留 +12%
                                     </span>
                                 </div>
 
-                                <!-- Full Height Hover Overlay Screen -->
-                                <div class="absolute inset-0 bg-gradient-to-t from-slateVoid via-slateVoid/80 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-400 p-8 flex flex-col justify-end transform translate-y-4 group-hover:translate-y-0">
-                                    <div class="space-y-3">
-                                        <div class="font-mono text-xs text-acidCyan">// PROJECT 03</div>
-                                        <h3 class="font-display text-2xl font-bold text-white leading-tight">
+                                <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slateVoid via-slateVoid/90 to-transparent p-4 sm:p-6 flex flex-col justify-end">
+                                    <div class="space-y-2">
+                                        <div class="font-mono text-[10px] text-acidCyan">// PROJECT 03</div>
+                                        <h3 class="font-display text-lg sm:text-2xl font-bold text-white leading-tight">
                                             儿童感应篮筐：空间场景优化
                                         </h3>
-                                        <p class="text-textMuted text-xs leading-relaxed line-clamp-3">
-                                            【室内空间场景化】发挥建筑透视优势，重构卡片式结构与投篮计分卖点展示，极大增强画面运动氛围。
-                                        </p>
-
-                                        <div class="flex flex-wrap gap-2 pt-2 font-mono text-[11px]">
-                                            <span class="px-2.5 py-1 rounded-md bg-white/10 text-white">空间透视</span>
-                                            <span class="px-2.5 py-1 rounded-md bg-white/10 text-white">产品精修</span>
-                                            <span class="px-2.5 py-1 rounded-md bg-white/10 text-white">卖点模块化</span>
+                                        <div class="flex flex-wrap gap-1.5 font-mono text-[10px]">
+                                            <span class="px-2 py-0.5 rounded bg-white/10 text-white">空间透视</span>
+                                            <span class="px-2 py-0.5 rounded bg-white/10 text-white">产品精修</span>
                                         </div>
-
-                                        <div class="pt-2">
-                                            <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-acidCyan text-black font-mono font-bold text-xs">
-                                                <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i> 查看完整长图详情
-                                            </span>
+                                        <div class="pt-1 flex items-center gap-1.5 text-acidCyan font-mono text-xs font-bold">
+                                            <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+                                            <span>点击查看完整长图</span>
                                         </div>
                                     </div>
                                 </div>
@@ -645,48 +655,40 @@
                     </div>
 
                     <!-- PROJECT 4: DIY童趣穿穿乐 -->
-                    <div class="break-inside-avoid perspective-1000">
-                        <div class="tilt-card relative hud-glass rounded-3xl overflow-hidden border border-white/10 hover:border-neonLime transition-all duration-500 group cursor-pointer"
+                    <div class="perspective-1000">
+                        <div class="tilt-card relative hud-glass rounded-3xl overflow-hidden border border-white/10 hover:border-neonLime transition-all duration-300 cursor-pointer active:scale-98"
                              onclick="openModal('DIY童趣穿穿乐三维及合成视觉', 'https://tu-1316323418.cos.ap-chengdu.myqcloud.com/tu-1316323418/xiangqingDIY1.png', '鲜艳明快的色块搭配高精材质修图，突出益智动手玩具的趣味性与安全性，建立高交付效率的可复用视觉模版。')">
                             
-                            <div class="relative w-full h-[440px] overflow-hidden bg-concreteLight">
+                            <div class="relative w-full h-80 sm:h-[420px] overflow-hidden bg-concreteLight">
                                 <img src="https://tu-1316323418.cos.ap-chengdu.myqcloud.com/tu-1316323418/xiangqingDIY1.png" 
                                      alt="DIY穿穿乐视觉设计" 
-                                     class="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700 opacity-85 group-hover:opacity-100">
+                                     class="w-full h-full object-cover object-top opacity-90 transition-transform duration-500">
                                 
-                                <div class="absolute top-4 left-4 z-10">
-                                    <span class="px-3 py-1 rounded-full bg-slateVoid/90 backdrop-blur-md border border-neonLime/40 font-mono text-xs text-neonLime shadow-lg">
+                                <div class="absolute top-3 left-3 z-10">
+                                    <span class="px-2.5 py-1 rounded-full bg-slateVoid/90 border border-neonLime/40 font-mono text-[11px] text-neonLime">
                                         电商色彩规范
                                     </span>
                                 </div>
 
-                                <div class="absolute top-4 right-4 z-10">
-                                    <span class="px-2.5 py-1 rounded-lg bg-neonLime/20 backdrop-blur-md border border-neonLime/40 font-mono text-xs text-neonLime font-bold">
+                                <div class="absolute top-3 right-3 z-10">
+                                    <span class="px-2 py-0.5 rounded-lg bg-neonLime/20 border border-neonLime/40 font-mono text-[11px] text-neonLime font-bold">
                                         模板可复用
                                     </span>
                                 </div>
 
-                                <!-- Full Height Hover Overlay Screen -->
-                                <div class="absolute inset-0 bg-gradient-to-t from-slateVoid via-slateVoid/80 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-400 p-8 flex flex-col justify-end transform translate-y-4 group-hover:translate-y-0">
-                                    <div class="space-y-3">
-                                        <div class="font-mono text-xs text-neonLime">// PROJECT 04</div>
-                                        <h3 class="font-display text-2xl font-bold text-white leading-tight">
+                                <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slateVoid via-slateVoid/90 to-transparent p-4 sm:p-6 flex flex-col justify-end">
+                                    <div class="space-y-2">
+                                        <div class="font-mono text-[10px] text-neonLime">// PROJECT 04</div>
+                                        <h3 class="font-display text-lg sm:text-2xl font-bold text-white leading-tight">
                                             DIY立体穿穿乐：益智视觉规范
                                         </h3>
-                                        <p class="text-textMuted text-xs leading-relaxed line-clamp-3">
-                                            【视觉规范建立】建立高饱和童趣配色与清晰构图规范，形成高交付效率的可复用电商创意视觉模版。
-                                        </p>
-
-                                        <div class="flex flex-wrap gap-2 pt-2 font-mono text-[11px]">
-                                            <span class="px-2.5 py-1 rounded-md bg-white/10 text-white">Photoshop精修</span>
-                                            <span class="px-2.5 py-1 rounded-md bg-white/10 text-white">视觉规范搭建</span>
-                                            <span class="px-2.5 py-1 rounded-md bg-white/10 text-white">大促活动页</span>
+                                        <div class="flex flex-wrap gap-1.5 font-mono text-[10px]">
+                                            <span class="px-2 py-0.5 rounded bg-white/10 text-white">Photoshop精修</span>
+                                            <span class="px-2 py-0.5 rounded bg-white/10 text-white">大促活动页</span>
                                         </div>
-
-                                        <div class="pt-2">
-                                            <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-neonLime text-black font-mono font-bold text-xs">
-                                                <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i> 查看完整长图详情
-                                            </span>
+                                        <div class="pt-1 flex items-center gap-1.5 text-neonLime font-mono text-xs font-bold">
+                                            <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+                                            <span>点击查看完整长图</span>
                                         </div>
                                     </div>
                                 </div>
@@ -701,57 +703,53 @@
         </section>
 
         <!-- Section 04: Experience Timeline -->
-        <section id="experience" class="py-24 px-4 md:px-8 bg-concrete/40 relative border-t border-white/5">
-            <div class="max-w-5xl mx-auto space-y-16">
+        <section id="experience" class="py-16 md:py-24 px-4 md:px-8 bg-concrete/40 relative border-t border-white/5">
+            <div class="max-w-5xl mx-auto space-y-12 md:space-y-16">
                 
-                <div class="text-center space-y-3">
+                <div class="text-center space-y-2">
                     <div class="font-mono text-xs text-acidCyan uppercase tracking-widest">// SECTION 04 — CAREER EVOLUTION</div>
-                    <h2 class="font-display text-3xl sm:text-4xl font-bold text-white">履历进化与项目实操</h2>
+                    <h2 class="font-display text-2xl sm:text-4xl font-bold text-white">履历进化与项目实操</h2>
                 </div>
 
-                <!-- Timeline List -->
-                <div class="space-y-12 relative before:absolute before:inset-0 before:left-4 sm:before:left-1/2 before:-translate-x-px before:w-0.5 before:bg-gradient-to-b before:from-acidCyan before:via-neonLime before:to-transparent">
+                <!-- Timeline List (Optimized Mobile Margin Layout) -->
+                <div class="space-y-8 md:space-y-12 relative before:absolute before:inset-0 before:left-4 sm:before:left-1/2 before:-translate-x-px before:w-0.5 before:bg-gradient-to-b before:from-acidCyan before:via-neonLime before:to-transparent">
                     
                     <!-- Job 1: 电商美工 -->
-                    <div class="relative flex flex-col sm:flex-row items-start sm:items-center group">
+                    <div class="relative flex flex-col sm:flex-row items-start sm:items-center pl-10 sm:pl-0 group">
                         <div class="flex items-center justify-end w-full sm:w-1/2 sm:pr-8 mb-4 sm:mb-0 text-left sm:text-right">
-                            <div class="hud-glass p-6 rounded-2xl border border-acidCyan/30 hover:border-acidCyan transition-all w-full space-y-2">
+                            <div class="hud-glass p-5 sm:p-6 rounded-2xl border border-acidCyan/30 w-full space-y-2">
                                 <span class="px-2.5 py-1 rounded bg-acidCyan/10 text-acidCyan font-mono text-xs inline-block">2024.10 - 2026.02</span>
-                                <h3 class="font-display text-xl font-bold text-white">一云嘻嘻 (武汉) 电商有限公司</h3>
+                                <h3 class="font-display text-lg sm:text-xl font-bold text-white">一云嘻嘻 (武汉) 电商有限公司</h3>
                                 <div class="font-mono text-xs text-acidCyan">电商美工 / 3D视觉渲染</div>
-                                <p class="text-textMuted text-xs leading-relaxed pt-2">
+                                <p class="text-textMuted text-xs leading-relaxed pt-1">
                                     独立负责天猫婴幼儿玩具类目日常与大促视觉。主导主图与详情页重构（CTR+15%、CVR+10%），沉淀类目视觉规范，高敏捷响应运营打爆需求。
                                 </p>
                             </div>
                         </div>
 
                         <!-- Center Node -->
-                        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-slateVoid border-2 border-acidCyan flex items-center justify-center text-acidCyan shadow-cyan-glow">
+                        <div class="absolute left-0 sm:left-1/2 sm:-translate-x-1/2 top-1 sm:top-auto w-8 h-8 rounded-full bg-slateVoid border-2 border-acidCyan flex items-center justify-center text-acidCyan shadow-cyan-glow z-10">
                             <i data-lucide="shopping-bag" class="w-4 h-4"></i>
                         </div>
 
-                        <div class="w-full sm:w-1/2 sm:pl-8 hidden sm:block">
-                            <!-- Right empty balance -->
-                        </div>
+                        <div class="w-full sm:w-1/2 sm:pl-8 hidden sm:block"></div>
                     </div>
 
                     <!-- Job 2: 建筑技术员 -->
-                    <div class="relative flex flex-col sm:flex-row items-start sm:items-center group">
-                        <div class="w-full sm:w-1/2 sm:pr-8 hidden sm:block">
-                            <!-- Left empty balance -->
-                        </div>
+                    <div class="relative flex flex-col sm:flex-row items-start sm:items-center pl-10 sm:pl-0 group">
+                        <div class="w-full sm:w-1/2 sm:pr-8 hidden sm:block"></div>
 
                         <!-- Center Node -->
-                        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-slateVoid border-2 border-neonLime flex items-center justify-center text-neonLime shadow-lime-glow">
+                        <div class="absolute left-0 sm:left-1/2 sm:-translate-x-1/2 top-1 sm:top-auto w-8 h-8 rounded-full bg-slateVoid border-2 border-neonLime flex items-center justify-center text-neonLime shadow-lime-glow z-10">
                             <i data-lucide="building" class="w-4 h-4"></i>
                         </div>
 
                         <div class="flex items-center justify-start w-full sm:w-1/2 sm:pl-8">
-                            <div class="hud-glass p-6 rounded-2xl border border-white/10 hover:border-neonLime transition-all w-full space-y-2">
+                            <div class="hud-glass p-5 sm:p-6 rounded-2xl border border-white/10 w-full space-y-2">
                                 <span class="px-2.5 py-1 rounded bg-neonLime/10 text-neonLime font-mono text-xs inline-block">2018.10 - 2024.04</span>
-                                <h3 class="font-display text-xl font-bold text-white">湖北龙扬建设工程有限公司</h3>
+                                <h3 class="font-display text-lg sm:text-xl font-bold text-white">湖北龙扬建设工程有限公司</h3>
                                 <div class="font-mono text-xs text-neonLime">建筑技术员 / 施工图深化</div>
-                                <p class="text-textMuted text-xs leading-relaxed pt-2">
+                                <p class="text-textMuted text-xs leading-relaxed pt-1">
                                     使用 AutoCAD 绘制建筑施工图与节点大样，累计参与 3 个工程项目。奠定扎实的空间尺度、透视关系与物理光影控制能力。
                                 </p>
                             </div>
@@ -763,52 +761,49 @@
             </div>
         </section>
 
-        <!-- Section 05: Contact & Resume Download Call-To-Action -->
-        <section id="contact" class="py-24 px-4 md:px-8 relative">
-            <div class="max-w-5xl mx-auto hud-glass rounded-3xl p-8 sm:p-12 border border-white/15 text-center space-y-8 relative overflow-hidden shadow-2xl">
+        <!-- Section 05: Contact Call-To-Action -->
+        <section id="contact" class="py-16 md:py-24 px-4 md:px-8 relative">
+            <div class="max-w-5xl mx-auto hud-glass rounded-3xl p-6 sm:p-12 border border-white/15 text-center space-y-6 sm:space-y-8 relative overflow-hidden shadow-2xl">
                 
                 <div class="absolute -bottom-20 -left-20 w-60 h-60 bg-acidCyan/10 rounded-full blur-3xl pointer-events-none"></div>
                 <div class="absolute -top-20 -right-20 w-60 h-60 bg-neonLime/10 rounded-full blur-3xl pointer-events-none"></div>
 
-                <div class="space-y-3">
+                <div class="space-y-2">
                     <div class="font-mono text-xs text-acidCyan uppercase tracking-widest">// START A CONVERSATION</div>
-                    <!-- USER_EDIT_NOTE: 替换联系标语 -->
-                    <h2 class="font-display text-3xl sm:text-5xl font-extrabold text-white">随时期待与您沟通！</h2>
-                    <p class="text-textMuted text-sm max-w-xl mx-auto">
-                    </p>
+                    <h2 class="font-display text-2xl sm:text-5xl font-extrabold text-white">随时期待与您沟通！</h2>
                 </div>
 
-                <!-- Contact Details Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 max-w-4xl mx-auto font-mono text-sm">
+                <!-- Contact Details Grid (Clickable Links on Mobile) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 pt-2 max-w-4xl mx-auto font-mono text-xs sm:text-sm">
                     
-                    <div class="p-4 rounded-2xl bg-concreteLight border border-white/5 space-y-1">
-                        <i data-lucide="phone" class="w-5 h-5 text-acidCyan mx-auto mb-2"></i>
-                        <div class="text-xs text-textMuted">联系电话</div>
-                        <div class="text-white font-bold select-all">188-7116-3544</div>
-                    </div>
+                    <a href="tel:18871163544" class="p-4 rounded-2xl bg-concreteLight border border-white/5 space-y-1 block hover:border-acidCyan transition-colors active:scale-98">
+                        <i data-lucide="phone" class="w-5 h-5 text-acidCyan mx-auto mb-1.5"></i>
+                        <div class="text-[11px] text-textMuted">联系电话 (点击拨打)</div>
+                        <div class="text-white font-bold">188-7116-3544</div>
+                    </a>
 
-                    <div class="p-4 rounded-2xl bg-concreteLight border border-white/5 space-y-1">
-                        <i data-lucide="mail" class="w-5 h-5 text-acidCyan mx-auto mb-2"></i>
-                        <div class="text-xs text-textMuted">电子邮箱</div>
+                    <a href="mailto:694035654@qq.com" class="p-4 rounded-2xl bg-concreteLight border border-white/5 space-y-1 block hover:border-acidCyan transition-colors active:scale-98">
+                        <i data-lucide="mail" class="w-5 h-5 text-acidCyan mx-auto mb-1.5"></i>
+                        <div class="text-[11px] text-textMuted">电子邮箱 (点击发送)</div>
                         <div class="text-white font-bold text-xs sm:text-sm select-all break-all">694035654@qq.com</div>
-                    </div>
+                    </a>
 
                     <div class="p-4 rounded-2xl bg-concreteLight border border-white/5 space-y-1">
-                        <i data-lucide="map-pin" class="w-5 h-5 text-neonLime mx-auto mb-2"></i>
-                        <div class="text-xs text-textMuted">期望城市</div>
+                        <i data-lucide="map-pin" class="w-5 h-5 text-neonLime mx-auto mb-1.5"></i>
+                        <div class="text-[11px] text-textMuted">期望城市</div>
                         <div class="text-white font-bold">重庆 (随时到岗)</div>
                     </div>
 
                     <div class="p-4 rounded-2xl bg-concreteLight border border-white/5 space-y-1">
-                        <i data-lucide="message-square" class="w-5 h-5 text-acidCyan mx-auto mb-2"></i>
-                        <div class="text-xs text-textMuted">求职状态</div>
+                        <i data-lucide="message-square" class="w-5 h-5 text-acidCyan mx-auto mb-1.5"></i>
+                        <div class="text-[11px] text-textMuted">求职状态</div>
                         <div class="text-white font-bold">离职状态 · 随时到岗</div>
                     </div>
 
                 </div>
 
                 <!-- Footer Bottom Copy -->
-                <div class="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-textMuted font-mono gap-4">
+                <div class="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-textMuted font-mono gap-3">
                     <div>© 2026 LIU CHEN. Spatial &amp; E-Commerce Portfolio.</div>
                     <div class="flex items-center gap-2">
                         <span class="w-2 h-2 rounded-full bg-acidCyan"></span>
@@ -822,44 +817,42 @@
     </main>
 
     <!-- Modal Lightbox Preview for Portfolio Images -->
-    <div id="project-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-xl flex items-center justify-center p-2 sm:p-6 hidden transition-all duration-300">
-        <div class="hud-glass rounded-3xl max-w-4xl w-full h-[92vh] flex flex-col border border-white/20 relative overflow-hidden shadow-2xl">
+    <div id="project-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-2 sm:p-6 hidden transition-all duration-300">
+        <div class="hud-glass rounded-2xl sm:rounded-3xl max-w-4xl w-full h-[90dvh] flex flex-col border border-white/20 relative overflow-hidden shadow-2xl">
             
             <!-- Sticky Modal Header -->
-            <div class="p-4 sm:p-6 border-b border-white/10 flex items-center justify-between shrink-0 bg-slateVoid/90 backdrop-blur-md z-10">
-                <div class="space-y-1 pr-4">
-                    <h3 id="modal-title" class="font-display text-lg sm:text-2xl font-bold text-white">项目详情</h3>
-                    <p id="modal-desc" class="text-textMuted text-xs leading-relaxed line-clamp-2">项目渲染背景说明...</p>
+            <div class="p-3 sm:p-5 border-b border-white/10 flex items-center justify-between shrink-0 bg-slateVoid/90 backdrop-blur-md z-10">
+                <div class="space-y-0.5 pr-2">
+                    <h3 id="modal-title" class="font-display text-base sm:text-2xl font-bold text-white truncate max-w-[200px] sm:max-w-none">项目详情</h3>
+                    <p id="modal-desc" class="text-textMuted text-[11px] sm:text-xs leading-tight line-clamp-1">项目渲染背景说明...</p>
                 </div>
 
-                <div class="flex items-center gap-2 shrink-0">
-                    <!-- Toggle View Mode Button -->
-                    <button id="modal-view-toggle" onclick="toggleModalImgView()" class="px-3 py-2 rounded-xl bg-concreteLight border border-white/10 text-xs font-mono text-acidCyan hover:bg-acidCyan hover:text-black transition-colors flex items-center gap-1.5">
-                        <i data-lucide="maximize-2" class="w-4 h-4"></i>
+                <div class="flex items-center gap-1.5 shrink-0">
+                    <button id="modal-view-toggle" onclick="toggleModalImgView()" class="px-2.5 py-1.5 rounded-lg bg-concreteLight border border-white/10 text-xs font-mono text-acidCyan hover:bg-acidCyan hover:text-black transition-colors flex items-center gap-1">
+                        <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
                         <span id="toggle-text" class="hidden sm:inline">适应窗口</span>
                     </button>
-                    <!-- Close Button -->
-                    <button onclick="closeModal()" class="w-9 h-9 rounded-xl bg-concreteLight border border-white/10 text-white flex items-center justify-center hover:bg-acidCyan hover:text-black transition-colors">
-                        <i data-lucide="x" class="w-5 h-5"></i>
+                    <button onclick="closeModal()" class="w-8 h-8 rounded-lg bg-concreteLight border border-white/10 text-white flex items-center justify-center hover:bg-acidCyan hover:text-black transition-colors">
+                        <i data-lucide="x" class="w-4 h-4"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Scrollable Image Area for E-Commerce Long Detail Pages -->
-            <div id="modal-scroll-area" class="flex-1 overflow-y-auto p-3 sm:p-6 bg-black/50 scroll-smooth">
+            <div id="modal-scroll-area" class="flex-1 overflow-y-auto p-2 sm:p-6 bg-black/50 touch-pan-y scroll-smooth">
                 <div class="max-w-3xl mx-auto flex justify-center">
-                    <img id="modal-img" src="" alt="作品预览" class="w-full h-auto rounded-xl shadow-2xl border border-white/10 block transition-all duration-300">
+                    <img id="modal-img" src="" alt="作品预览" class="w-full h-auto rounded-lg shadow-2xl border border-white/10 block transition-all duration-300">
                 </div>
             </div>
 
             <!-- Sticky Bottom Toolbar -->
-            <div class="px-6 py-3 border-t border-white/10 bg-slateVoid/90 backdrop-blur-md flex items-center justify-between text-xs font-mono text-textMuted shrink-0">
-                <span class="flex items-center gap-1.5 text-acidCyan">
+            <div class="px-4 py-2.5 border-t border-white/10 bg-slateVoid/90 backdrop-blur-md flex items-center justify-between text-xs font-mono text-textMuted shrink-0">
+                <span class="flex items-center gap-1.5 text-acidCyan text-[11px]">
                     <i data-lucide="mouse-pointer" class="w-3.5 h-3.5 animate-bounce"></i>
-                    <span>支持上下滑动查看完整详情页长图</span>
+                    <span>滑动查看完整详情页长图</span>
                 </span>
-                <button onclick="closeModal()" class="px-4 py-1.5 rounded-lg bg-concreteLight border border-white/10 text-white hover:bg-white/20">
-                    关闭预览
+                <button onclick="closeModal()" class="px-3 py-1 rounded-lg bg-concreteLight border border-white/10 text-white text-xs">
+                    关闭
                 </button>
             </div>
 
@@ -870,8 +863,27 @@
         // Initialize Lucide Icons
         lucide.createIcons();
 
+        /* Mobile Hamburger Drawer Navigation Toggle */
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const openIcon = document.getElementById('menu-icon-open');
+            const closeIcon = document.getElementById('menu-icon-close');
+            if (!menu) return;
+
+            const isHidden = menu.classList.contains('hidden');
+            if (isHidden) {
+                menu.classList.remove('hidden');
+                openIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+            } else {
+                menu.classList.add('hidden');
+                openIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        }
+
         /* --------------------------------------------------
-         * 1. Three.js WebGL Interactive 3D Liquid Mercury Sphere (Enhanced Reactivity & Glow)
+         * 1. Three.js WebGL Mobile-Optimized 3D Liquid Sphere Engine
          * -------------------------------------------------- */
         (function initThreeJSLiquid() {
             const canvas = document.getElementById('webgl-liquid-canvas');
@@ -884,14 +896,16 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-            // Create High-Density Organic Geometry (Increased Base Radius)
-            const geometry = new THREE.IcosahedronGeometry(2.6, 64);
+            // Adaptive Detail: Drop subdivisions on mobile screens to prevent performance lag
+            const isMobile = window.innerWidth < 768;
+            const detailLevel = isMobile ? 24 : 56;
             
-            // Save original vertex positions for fluid noise displacement
+            const geometry = new THREE.IcosahedronGeometry(2.4, detailLevel);
+            
             const positionAttribute = geometry.attributes.position;
             const originalPositions = new Float32Array(positionAttribute.array);
 
-            // Chrome Liquid Metallic Material with High Reflectivity & Vibrant Contrast
+            // Chrome Liquid Metallic Material
             const material = new THREE.MeshPhysicalMaterial({
                 color: 0x102536,
                 metalness: 0.95,
@@ -905,39 +919,27 @@
             const liquidMesh = new THREE.Mesh(geometry, material);
             scene.add(liquidMesh);
 
-            // Dynamic High-Intensity Colored Lights (Acid Cyan & Neon Lime Reflection Boost)
-            const cyanLight = new THREE.PointLight(0x00F0FF, 18, 30);
+            // Colored Lights
+            const cyanLight = new THREE.PointLight(0x00F0FF, 16, 30);
             cyanLight.position.set(5, 5, 5);
             scene.add(cyanLight);
 
-            const limeLight = new THREE.PointLight(0xD4FF00, 14, 30);
+            const limeLight = new THREE.PointLight(0xD4FF00, 12, 30);
             limeLight.position.set(-5, -5, 3);
             scene.add(limeLight);
-
-            const highlightLight = new THREE.PointLight(0xffffff, 8, 20);
-            highlightLight.position.set(0, 4, 6);
-            scene.add(highlightLight);
 
             const ambientLight = new THREE.AmbientLight(0x1a2430, 1.2);
             scene.add(ambientLight);
 
-            // Interactive Physics Variables
-            let mouse = { x: 0, y: 0, targetX: 0, targetY: 0, velX: 0, velY: 0 };
-            let rippleImpact = 0;
+            let mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
 
             const updateMousePos = (clientX, clientY) => {
-                const newTargetX = (clientX / window.innerWidth) * 2 - 1;
-                const newTargetY = -(clientY / window.innerHeight) * 2 + 1;
-                
-                mouse.velX = newTargetX - mouse.targetX;
-                mouse.velY = newTargetY - mouse.targetY;
-
-                mouse.targetX = newTargetX;
-                mouse.targetY = newTargetY;
+                mouse.targetX = (clientX / window.innerWidth) * 2 - 1;
+                mouse.targetY = -(clientY / window.innerHeight) * 2 + 1;
 
                 const cursorDot = document.getElementById('cursor-dot');
                 const cursorRing = document.getElementById('cursor-ring');
-                if (cursorDot && cursorRing) {
+                if (cursorDot && cursorRing && !isMobile) {
                     cursorDot.style.left = `${clientX}px`;
                     cursorDot.style.top = `${clientY}px`;
                     cursorRing.style.left = `${clientX}px`;
@@ -952,59 +954,27 @@
                 }
             }, { passive: true });
 
-            // Trigger ripple shockwave pulse on mouse click or screen tap
-            window.addEventListener('pointerdown', () => {
-                rippleImpact = 1.0;
-            });
-
-            // Fluid Noise Animation Cycle Loop
             let clock = new THREE.Clock();
 
             function animate() {
                 requestAnimationFrame(animate);
-
                 const time = clock.getElapsedTime();
 
-                // Damping mouse lerp & velocity decay
-                mouse.x += (mouse.targetX - mouse.x) * 0.08;
-                mouse.y += (mouse.targetY - mouse.y) * 0.08;
-                
-                // Decay click ripple impact
-                rippleImpact *= 0.94;
-                const currentImpact = rippleImpact;
+                mouse.x += (mouse.targetX - mouse.x) * 0.06;
+                mouse.y += (mouse.targetY - mouse.y) * 0.06;
 
-                // Mesh Position & Rotation follows cursor dynamically
-                liquidMesh.rotation.y = time * 0.2 + mouse.x * 0.8;
-                liquidMesh.rotation.x = time * 0.15 + mouse.y * 0.8;
-                liquidMesh.position.x = mouse.x * 0.8;
-                liquidMesh.position.y = mouse.y * 0.5;
+                liquidMesh.rotation.y = time * 0.15 + mouse.x * 0.5;
+                liquidMesh.rotation.x = time * 0.1 + mouse.y * 0.5;
 
-                // Animate Lights orbiting around the liquid
-                cyanLight.position.x = Math.sin(time * 0.8) * 6 + mouse.x * 3;
-                cyanLight.position.y = Math.cos(time * 0.8) * 6 + mouse.y * 3;
-                limeLight.position.x = -Math.sin(time * 0.6) * 6 - mouse.x * 2;
-                limeLight.position.y = -Math.cos(time * 0.6) * 6 - mouse.y * 2;
-
-                // Vertex Displacement (Trigonometric Liquid Deform + Interactive Shockwave)
+                // Vertex Displacement calculation optimized for mobile CPU
                 const positions = positionAttribute.array;
-                const speed = Math.sqrt(mouse.velX * mouse.velX + mouse.velY * mouse.velY) * 5;
-
                 for (let i = 0; i < positions.length; i += 3) {
                     const vx = originalPositions[i];
                     const vy = originalPositions[i + 1];
                     const vz = originalPositions[i + 2];
 
-                    // Complex liquid sine/cosine wave equations
-                    const wave1 = Math.sin(vx * 2.5 + time * 3.0 + mouse.x * 3) * Math.cos(vy * 2.5 + time * 2.5 + mouse.y * 3);
-                    const wave2 = Math.sin(vz * 3.0 + time * 2.0);
-                    
-                    // Touch / Mouse interactive localized deformation
-                    const mouseDist = Math.sqrt((vx - mouse.x * 2) ** 2 + (vy - mouse.y * 2) ** 2);
-                    const mouseDeform = Math.sin(mouseDist * 4 - time * 6) * (0.25 / (mouseDist + 0.5)) * (0.5 + speed);
-
-                    // Dynamic displacement calculation with shockwave pulse
-                    const totalDeform = (wave1 + wave2) * (0.15 + speed * 0.1) + mouseDeform + (currentImpact * Math.sin(vx * 8 + time * 10) * 0.3);
-                    const displacement = 1 + totalDeform;
+                    const wave = Math.sin(vx * 2.0 + time * 2.5 + mouse.x) * Math.cos(vy * 2.0 + time * 2.0 + mouse.y);
+                    const displacement = 1 + wave * 0.12;
 
                     positions[i] = vx * displacement;
                     positions[i + 1] = vy * displacement;
@@ -1014,9 +984,11 @@
 
                 renderer.render(scene, camera);
             }
-            animate();
+            
+            window.onload = function() {
+                animate();
+            };
 
-            // Responsive Window Resize Handler
             window.addEventListener('resize', () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
@@ -1025,50 +997,26 @@
         })();
 
         /* --------------------------------------------------
-         * 2. GSAP Non-linear Spring Scroll Motion
+         * 2. GSAP Scroll Motion Animations
          * -------------------------------------------------- */
         gsap.registerPlugin(ScrollTrigger);
 
-        // Spring elastic animation for section headings
         gsap.utils.toArray('section').forEach((section) => {
             gsap.from(section, {
                 opacity: 0,
-                y: 60,
-                duration: 1.2,
-                ease: "cubic-bezier(0.175, 0.885, 0.32, 1.275)", // Elastic Non-linear Overshoot
+                y: 40,
+                duration: 1.0,
+                ease: "power2.out",
                 scrollTrigger: {
                     trigger: section,
-                    start: "top 80%",
+                    start: "top 85%",
                     toggleActions: "play none none reverse"
                 }
             });
         });
 
         /* --------------------------------------------------
-         * 3. 3D Tilt Card Hover Effect
-         * -------------------------------------------------- */
-        document.querySelectorAll('.tilt-card').forEach((card) => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = ((y - centerY) / centerY) * -8;
-                const rotateY = ((x - centerX) / centerX) * 8;
-
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-            });
-        });
-
-        /* --------------------------------------------------
-         * 4. Lightbox Modal Preview Functionality for Long Detail Images
+         * 3. Modal Lightbox Functionality
          * -------------------------------------------------- */
         let isFullWidthView = true;
 
@@ -1080,11 +1028,9 @@
             const img = document.getElementById('modal-img');
             img.src = imageSrc;
             
-            // 默认设置为全宽长图滚动模式
             isFullWidthView = true;
             updateModalImgStyle();
 
-            // 滚动置顶
             const scrollArea = document.getElementById('modal-scroll-area');
             if (scrollArea) scrollArea.scrollTop = 0;
             
@@ -1111,10 +1057,10 @@
             if (!img) return;
 
             if (isFullWidthView) {
-                img.className = 'w-full h-auto rounded-xl shadow-2xl border border-white/10 block transition-all duration-300';
+                img.className = 'w-full h-auto rounded-lg shadow-2xl border border-white/10 block transition-all duration-300';
                 if (toggleText) toggleText.innerText = '适应窗口';
             } else {
-                img.className = 'max-h-[70vh] w-auto object-contain rounded-xl shadow-2xl border border-white/10 block transition-all duration-300';
+                img.className = 'max-h-[65vh] w-auto object-contain rounded-lg shadow-2xl border border-white/10 block transition-all duration-300';
                 if (toggleText) toggleText.innerText = '展开完整长图';
             }
         }
